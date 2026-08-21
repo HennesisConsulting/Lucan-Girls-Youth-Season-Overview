@@ -74,6 +74,12 @@ whatever suits you.
 
 That's it — no other steps, no need to touch any code.
 
+**Note:** the build automatically forces Excel to fully recalculate before
+reading it, so you don't need to press F9 before saving - though it doesn't
+hurt to. This matters because Excel only recalculates formulas it thinks are
+"dirty," and occasionally that can leave the exported data stale even though
+the file looks fine. The build catches that automatically now.
+
 ---
 
 ## If something goes wrong

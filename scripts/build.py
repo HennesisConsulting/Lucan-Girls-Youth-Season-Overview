@@ -8,7 +8,10 @@ changes. Can also be run locally:  python3 scripts/build.py
 """
 import glob
 import json
+import shutil
+import subprocess
 import sys
+import tempfile
 from pathlib import Path
 
 import openpyxl
@@ -35,6 +38,43 @@ def find_workbook() -> Path:
             file=sys.stderr,
         )
     return Path(candidates[0])
+
+
+def recalculate(workbook_path: Path) -> Path:
+    """
+    Excel only recalculates formulas that were dirty at save time - if the
+    file was saved without a full recalc (Ctrl+Alt+F9), cells like the
+    Web Output JSON, return-date calculations, etc. can be silently stale
+    even though nothing looks wrong. This has bitten real uploads before.
+    Force a full recalculation via headless LibreOffice before reading
+    anything, so the published site is never built from stale numbers.
+    Falls back to reading the workbook as-is if LibreOffice isn't
+    available in this environment, rather than failing the whole build.
+    """
+    soffice = shutil.which("soffice") or shutil.which("libreoffice")
+    if not soffice:
+        print("WARNING: LibreOffice not found - reading workbook without forcing "
+              "recalculation. Cached formula values could be stale.", file=sys.stderr)
+        return workbook_path
+
+    tmpdir = Path(tempfile.mkdtemp(prefix="recalc_"))
+    try:
+        result = subprocess.run(
+            [soffice, "--headless", "--calc", "--convert-to", "xlsx",
+             "--outdir", str(tmpdir), str(workbook_path)],
+            capture_output=True, text=True, timeout=120,
+        )
+        recalced = tmpdir / workbook_path.name
+        if result.returncode != 0 or not recalced.exists():
+            print(f"WARNING: LibreOffice recalculation failed ({result.returncode}), "
+                  f"falling back to reading the workbook as-is:\n{result.stderr}", file=sys.stderr)
+            return workbook_path
+        print("Recalculated workbook via LibreOffice before reading (avoids stale cached formulas)")
+        return recalced
+    except subprocess.TimeoutExpired:
+        print("WARNING: LibreOffice recalculation timed out - falling back to "
+              "reading the workbook as-is.", file=sys.stderr)
+        return workbook_path
 
 
 def extract_json(workbook_path: Path) -> dict:
@@ -95,7 +135,20 @@ def redact_sensitive_fields(data: dict) -> dict:
 def build():
     workbook_path = find_workbook()
     print(f"Reading: {workbook_path.name}")
-    data = extract_json(workbook_path)
+
+    # Read the original file's own generated timestamp first (before recalculating,
+    # since forcing recalculation re-evaluates any NOW()/TODAY()-style formula to
+    # the moment this script runs rather than when the workbook was actually saved).
+    try:
+        original_data = extract_json(workbook_path)
+        original_generated = original_data.get("meta", {}).get("generated")
+    except SystemExit:
+        original_generated = None
+
+    recalced_path = recalculate(workbook_path)
+    data = extract_json(recalced_path)
+    if original_generated:
+        data["meta"]["generated"] = original_generated
     print(f"Parsed OK - {len(data['players'])} players, generated {data['meta'].get('generated')}")
 
     data = redact_sensitive_fields(data)

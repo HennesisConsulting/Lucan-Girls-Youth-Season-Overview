@@ -4,19 +4,18 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
 <title>Lucan Utd Youths — Girls Youth 2026/27</title>
-<meta name="robots" content="noindex, nofollow, noarchive">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <style>
 :root{
-  --pitch-navy:#170C0C;
-  --pitch-navy-2:#1F0D0E;
-  --surface:#1F0D0E;
-  --surface-2:#2C0E10;
-  --surface-3:#3A1315;
-  --line:#461214;
-  --line-soft:#351011;
+  --pitch-navy:#231212;
+  --pitch-navy-2:#341618;
+  --surface:#341618;
+  --surface-2:#4B181B;
+  --surface-3:#622023;
+  --line:#61191C;
+  --line-soft:#4A1618;
   --crimson:#DF262E;
-  --crimson-2:#E86369;
+  --crimson-2:#ED8287;
   --crimson-dim:#260E0F;
   --crimson-deep:#6A171A;
   --gold:#B39A5E;
@@ -25,7 +24,7 @@
   --gold-deep:#675938;
   --white:#FFFFFF;
   --muted:#B0A3A0;
-  --muted-2:#7E7170;
+  --muted-2:#ADA4A4;
   --red:#DF262E;
   --red-dim:#260E0F;
   --amber:#B39A5E;
@@ -267,6 +266,7 @@ svg.pitch{display:block; width:100%; height:auto; max-width:520px; margin:0 auto
 }
 .unavail-row:last-child{margin-bottom:0;}
 .unavail-top{display:flex; align-items:center; gap:8px;}
+.unavail-top .ns-pos{margin-left:8px;}
 .unavail-reason{font-size:11.5px; color:var(--muted); margin-top:4px; line-height:1.4;}
 .vacancy-note{
   display:inline-flex; align-items:center; gap:6px; font-size:11.5px; color:var(--gold-2);
@@ -424,15 +424,50 @@ svg.scatter{display:block; width:100%; height:auto;}
 }
 
 /* ---------- Readiness bands ---------- */
-.band-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:10px;}
-.band-tile{background:var(--surface-2); border:1px solid var(--line-soft); border-radius:var(--radius-sm); padding:12px;}
+.band-grid{display:grid; grid-template-columns:1fr; gap:12px;}
+@media(min-width:700px){ .band-grid{grid-template-columns:repeat(3,1fr);} }
+.band-tile{background:var(--surface-2); border:1px solid var(--line-soft); border-radius:var(--radius-sm); padding:16px;}
 .band-tile .band-range{font-family:var(--font-mono); font-size:10.5px; color:var(--muted-2);}
 .band-tile .band-name{font-weight:700; font-size:13px; margin-top:3px;}
 .band-tile .band-count{font-family:var(--font-mono); font-size:11px; color:var(--muted); margin-top:7px;}
+.band-baseline-note{font-size:11.5px; color:var(--muted); line-height:1.5; margin-bottom:12px; max-width:640px;}
+
+.injured-row{
+  display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap;
+  padding:11px 0; border-bottom:1px solid var(--line-soft);
+}
+.injured-row:last-child{border-bottom:none;}
+.injured-main{display:flex; align-items:center;}
+.injured-main .ns-pos{margin-left:8px;}
+.injured-return{display:flex; align-items:center; gap:10px; flex-shrink:0;}
+.injured-return .return-date{font-family:var(--font-mono); font-size:12px; color:var(--gold-2); font-weight:700;}
+.injured-return .return-countdown{
+  font-size:10.5px; color:var(--muted); background:var(--surface-3); padding:3px 9px; border-radius:99px;
+}
+.band-distribution{display:flex; height:16px; border-radius:8px; overflow:hidden; margin-bottom:16px; background:var(--surface-2); border:1px solid var(--line-soft);}
+.band-distribution-segment{height:100%; transition:width .4s ease;}
+.band-chip-list{display:flex; flex-wrap:wrap; gap:7px; margin-top:11px;}
+.band-chip{background:var(--surface-3); border-radius:99px; padding:5px 12px; font-size:13px; color:var(--white); white-space:nowrap;}
+.band-tile.band-empty .band-count{color:var(--muted-2);}
+
+/* ---------- Leaderboard ---------- */
+.leaderboard{display:flex; flex-direction:column; gap:8px;}
+.leaderboard-row{display:flex; align-items:center; gap:11px; background:var(--surface-2); border-radius:var(--radius-sm); padding:9px 12px;}
+.leaderboard-rank{
+  width:22px; height:22px; border-radius:50%; background:var(--surface-3); color:var(--muted);
+  font-family:var(--font-mono); font-weight:700; font-size:11px;
+  display:flex; align-items:center; justify-content:center; flex-shrink:0;
+}
+.leaderboard-row:first-child .leaderboard-rank{background:var(--gold-dim); color:var(--gold-2);}
+.leaderboard-name{flex:1; font-weight:600; font-size:13px; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;}
+.leaderboard-pos{color:var(--muted-2); font-size:10.5px; font-family:var(--font-mono); flex-shrink:0; margin-left:10px;}
+.leaderboard-value{font-family:var(--font-mono); font-weight:700; color:var(--gold-2); font-size:13px; flex-shrink:0; margin-left:10px; min-width:44px; text-align:right;}
 
 /* ---------- Legend / Weights ---------- */
 .legend-row{display:flex; gap:14px; flex-wrap:wrap; font-size:11px; color:var(--muted); margin-top:10px;}
-.legend-item{display:flex; align-items:center; gap:5px;}
+.legend-item{display:flex; align-items:center; gap:5px; margin-right:14px;}
+.legend-item:last-child{margin-right:0;}
+.legend-item .rag-dot{margin-right:5px;}
 .weights-grid{display:flex; flex-wrap:wrap; gap:22px;}
 .weight-item{min-width:130px;}
 .weight-pct{font-family:var(--font-display); font-size:22px; font-weight:800; color:var(--gold-2);}
@@ -521,7 +556,8 @@ function gradeForPlayer(name){
 function statusForPlayer(p){
   const isStarting = (DATA.teamSelection.startingXI||[]).some(x=>x.player===p.name);
   if (isStarting) return 'Starting XI';
-  return p.availability === 'Yes' ? 'Available' : (p.availability || 'Unavailable');
+  if (p.availability === 'Yes') return 'Available';
+  return 'Unavailable';
 }
 
 /* ============================= INIT ============================= */
@@ -635,24 +671,31 @@ function renderOverview(){
   el.innerHTML = `
     <div class="kpi-grid">${kpiHtml}</div>
 
-    <div class="section-title"><span class="num">01</span> Squad ranked by grade</div>
-    <div class="panel" id="gradeBarPanel"></div>
-
-    <div class="section-title"><span class="num">02</span> Match-readiness bands</div>
+    <div class="section-title"><span class="num">01</span> Match-readiness bands</div>
     <div class="panel">
-      <div class="panel-head"><h3>Season-score bands</h3><span class="hint">${NO_SEASON_DATA ? 'no season data logged yet' : 'players per band'}</span></div>
+      <div class="panel-head"><h3>Season-score bands</h3><span class="hint">${NO_SEASON_DATA ? 'based on preseason grading' : 'players per band'}</span></div>
+      ${NO_SEASON_DATA ? '<div class="band-baseline-note">No training sessions or matches logged yet, so bands are estimated from preseason grading as a starting point. They\'ll switch to live training &amp; matchday data automatically once it\'s entered.</div>' : ''}
+      <div class="band-distribution" id="bandDistribution"></div>
       <div class="band-grid" id="bandGrid"></div>
     </div>
+    <div id="injuredReturns"></div>
 
-    <div class="section-title"><span class="num">03</span> How season score is weighted</div>
+    <div class="section-title"><span class="num">02</span> Squad ranked by grade</div>
+    <div class="panel" id="gradeBarPanel"></div>
+
+    <div class="section-title"><span class="num">03</span> Top performers in training</div>
+    <div class="grid-2" id="leaderboardGrid"></div>
+
+    <div class="section-title"><span class="num">04</span> How season score is weighted</div>
     <div class="panel">
       <div class="panel-head"><h3>Weighting</h3><span class="hint">applied once matches &amp; sessions are logged</span></div>
       <div class="weights-grid" id="weightsGrid"></div>
     </div>
   `;
 
-  renderGradeBars();
   renderBands();
+  renderGradeBars();
+  renderLeaderboards();
   renderWeights();
 }
 
@@ -676,14 +719,189 @@ function renderGradeBars(){
     </div>`).join('');
 }
 
+function bandColorFor(idx, total){
+  const frac = total > 1 ? idx/(total-1) : 0;
+  if (frac >= 0.84) return 'green';
+  if (frac >= 0.34) return 'amber';
+  return 'red';
+}
+
+function bandForScore(score){
+  const bands = DATA.ragBands || [];
+  for (const b of bands){
+    if (score >= b.from && score <= b.to) return b;
+  }
+  return bands[0] || null;
+}
+
+// Before any training sessions or matches are logged, seasonScore is 0 for
+// everyone (it's a weighted blend of live attendance/work-rate/matchday
+// data that simply doesn't exist yet), which isn't a useful signal for
+// match-readiness. Use the preseason grading as a starting point instead -
+// it's real, differentiated coach assessment - and switch over to the true
+// weighted seasonScore automatically once real training/matchday data
+// starts coming in.
+function readinessScoreFor(p){
+  if (NO_SEASON_DATA){
+    const grade = gradeForPlayer(p.name);
+    if (grade != null && MAX_GRADE > 0) return (grade / MAX_GRADE) * 5;
+    return 0;
+  }
+  return p.seasonScore || 0;
+}
+
+// Parses a return date out of a reason string like "...(back 2 Oct)".
+// Returns null if no such pattern is found (e.g. the redacted public build,
+// or an absence with no return date) - this is deliberate, not a bug: it
+// means the injury countdown feature simply doesn't render anything for
+// entries with no parseable date, rather than guessing.
+const MONTH_MAP = {jan:0,feb:1,mar:2,apr:3,may:4,jun:5,jul:6,aug:7,sep:8,oct:9,nov:10,dec:11};
+function parseReturnDate(reasonText){
+  if (!reasonText) return null;
+  const m = reasonText.match(/\(back (\d{1,2})\s+([A-Za-z]{3})/i);
+  if (!m) return null;
+  const day = parseInt(m[1], 10);
+  const month = MONTH_MAP[m[2].toLowerCase()];
+  if (month === undefined) return null;
+  const today = new Date((DATA.meta.generated||'').replace(' ', 'T'));
+  let year = isNaN(today.getFullYear()) ? new Date().getFullYear() : today.getFullYear();
+  let d = new Date(year, month, day);
+  if (!isNaN(today.getTime()) && d < today) d = new Date(year+1, month, day);
+  return d;
+}
+function daysUntil(date){
+  const today = new Date((DATA.meta.generated||'').replace(' ', 'T'));
+  const base = isNaN(today.getTime()) ? new Date() : today;
+  return Math.ceil((date - base) / 86400000);
+}
+function formatReturnDate(date){
+  return date.toLocaleDateString('en-GB', { day:'numeric', month:'short' });
+}
+function returnCountdownText(days){
+  if (days <= 0) return 'Due back';
+  if (days < 14) return `${days} day${days===1?'':'s'} to go`;
+  const weeks = Math.round(days/7);
+  return `~${weeks} weeks to go`;
+}
+
 function renderBands(){
+  const bands = DATA.ragBands || [];
+  const unavailable = DATA.players.filter(p => p.availability && p.availability !== 'Yes');
+  const unavailableNames = new Set(unavailable.map(p=>p.name));
+  const availablePlayers = DATA.players.filter(p => !unavailableNames.has(p.name));
+  const total = availablePlayers.length || 1;
+
+  // The workbook's own precomputed band counts can go stale (e.g. showing 0
+  // even when players clearly fall in a band), so count live from each
+  // player's actual readiness score rather than trusting DATA.ragBands[].players.
+  // Unavailable players (injured/absent) are excluded here - a high grade
+  // doesn't mean "ready" if they physically can't play right now - and are
+  // shown separately below instead.
+  const bucketed = bands.map(b => ({
+    band: b,
+    players: availablePlayers.filter(p => bandForScore(readinessScoreFor(p)) === b)
+  }));
+
+  const distEl = document.getElementById('bandDistribution');
+  distEl.innerHTML = bucketed.map((entry,i) => {
+    if (entry.players.length === 0) return '';
+    const color = bandColorFor(i, bands.length);
+    const pct = (entry.players.length/total)*100;
+    return `<div class="band-distribution-segment" style="width:${pct}%; background:var(--${color});" title="${escapeHtml(entry.band.band)}: ${entry.players.length}"></div>`;
+  }).join('');
+
   const grid = document.getElementById('bandGrid');
-  grid.innerHTML = (DATA.ragBands||[]).map(b => `
-    <div class="band-tile">
+  grid.innerHTML = bucketed.map(entry => {
+    const b = entry.band;
+    const playersInBand = entry.players;
+    const chips = playersInBand.map(p=>`<span class="band-chip">${escapeHtml(p.name)}</span>`).join('');
+    return `
+    <div class="band-tile${playersInBand.length===0?' band-empty':''}">
       <div class="band-range">${b.from.toFixed(2)}\u2013${b.to.toFixed(2)}</div>
       <div class="band-name">${escapeHtml(b.band)}</div>
-      <div class="band-count">${b.players} player${b.players===1?'':'s'}</div>
-    </div>`).join('');
+      <div class="band-count">${playersInBand.length} player${playersInBand.length===1?'':'s'}</div>
+      ${playersInBand.length ? `<div class="band-chip-list">${chips}</div>` : ''}
+    </div>`;
+  }).join('');
+
+  // Injured / unavailable players get their own callout with return dates,
+  // rather than being folded into the grade-based bands above.
+  const injuredEl = document.getElementById('injuredReturns');
+  if (!injuredEl) return;
+  if (unavailable.length === 0){
+    injuredEl.innerHTML = '';
+    return;
+  }
+  const rows = unavailable.map(p => {
+    const reasonEntry = (DATA.teamSelection.unavailable||[]).find(u=>u.player===p.name);
+    const reason = (reasonEntry && reasonEntry.reason) || p.unavailableReason || 'Unavailable';
+    const returnDate = parseReturnDate(reason);
+    let returnHtml;
+    if (returnDate){
+      const days = daysUntil(returnDate);
+      returnHtml = `<span class="return-date">Back ${escapeHtml(formatReturnDate(returnDate))}</span><span class="return-countdown">${escapeHtml(returnCountdownText(days))}</span>`;
+    } else {
+      returnHtml = `<span class="return-date">No return date set</span>`;
+    }
+    return `
+      <div class="injured-row">
+        <div class="injured-main">
+          <span class="ns-name">${escapeHtml(p.name)}</span><span class="ns-pos">${escapeHtml((p.position||'').trim())}</span>
+        </div>
+        <div class="injured-return">${returnHtml}</div>
+      </div>`;
+  }).join('');
+  injuredEl.innerHTML = `
+    <div class="panel">
+      <div class="panel-head"><h3>Injured / unavailable</h3><span class="hint">excluded from bands above &middot; ${unavailable.length} player${unavailable.length===1?'':'s'}</span></div>
+      ${rows}
+    </div>`;
+}
+
+function renderLeaderboards(){
+  const grid = document.getElementById('leaderboardGrid');
+
+  if (NO_SEASON_DATA){
+    grid.innerHTML = `
+      <div class="panel">
+        <div class="panel-head"><h3>Training attendance</h3><span class="hint">top 5</span></div>
+        <div class="empty-state">No training data logged yet</div>
+      </div>
+      <div class="panel">
+        <div class="panel-head"><h3>Work rate</h3><span class="hint">top 5</span></div>
+        <div class="empty-state">No training data logged yet</div>
+      </div>
+    `;
+    return;
+  }
+
+  const byAttendance = DATA.players.slice()
+    .sort((a,b)=>(b.trainingAttendancePct||0)-(a.trainingAttendancePct||0))
+    .slice(0,5);
+  const byWorkRate = DATA.players.slice()
+    .sort((a,b)=>(b.avgWorkRate||0)-(a.avgWorkRate||0))
+    .slice(0,5);
+
+  function leaderboardHtml(list, valueFn){
+    return `<div class="leaderboard">` + list.map((p,i) => `
+      <div class="leaderboard-row">
+        <div class="leaderboard-rank">${i+1}</div>
+        <div class="leaderboard-name">${escapeHtml(p.name)}</div>
+        <div class="leaderboard-pos">${escapeHtml((p.position||'').trim())}</div>
+        <div class="leaderboard-value">${valueFn(p)}</div>
+      </div>`).join('') + `</div>`;
+  }
+
+  grid.innerHTML = `
+    <div class="panel">
+      <div class="panel-head"><h3>Training attendance</h3><span class="hint">top 5</span></div>
+      ${leaderboardHtml(byAttendance, p=>fmtPct(p.trainingAttendancePct))}
+    </div>
+    <div class="panel">
+      <div class="panel-head"><h3>Work rate</h3><span class="hint">top 5</span></div>
+      ${leaderboardHtml(byWorkRate, p=>fmt1(p.avgWorkRate))}
+    </div>
+  `;
 }
 
 function renderWeights(){
@@ -766,7 +984,7 @@ function renderSquadRows(){
   tbody.innerHTML = rows.map(p => {
     const status = startingNames.has(p.name)
       ? { label:'Starting XI', rag:'green' }
-      : (p.availability === 'Yes' ? { label:'Available', rag:'blue' } : { label: p.availability || 'Unavailable', rag:'amber' });
+      : (p.availability === 'Yes' ? { label:'Available', rag:'blue' } : { label:'Unavailable', rag:'amber' });
     return `
     <tr>
       <td class="player-pos-cell">${p.number}</td>
@@ -954,7 +1172,7 @@ function renderTeamSelection(){
 
   const unavailHtml = unavailablePlayers.map(p=>{
     const reasonEntry = (DATA.teamSelection.unavailable||[]).find(u=>u.player===p.name);
-    const reason = (reasonEntry && reasonEntry.reason) || p.unavailableReason || p.availability || 'Unavailable';
+    const reason = (reasonEntry && reasonEntry.reason) || p.unavailableReason || 'Unavailable';
     return `
     <div class="unavail-row">
       <div class="unavail-top"><span class="ns-name">${escapeHtml(p.name)}</span><span class="ns-pos">${escapeHtml((p.position||'').trim())}</span></div>
@@ -1052,7 +1270,7 @@ function renderPlayerDetail(){
   const startingXI = (DATA.teamSelection.startingXI||[]).find(s=>s.player===p.name);
   const notSel = (DATA.teamSelection.notSelected||[]).find(s=>s.player===p.name);
   const grade = startingXI ? startingXI.overallGrade : (notSel ? notSel.overallGrade : null);
-  const statusLabel = startingXI ? 'Starting XI' : (p.availability==='Yes' ? 'Available' : (p.availability||'Unavailable'));
+  const statusLabel = statusForPlayer(p);
 
   const sessionsHtml = (p.sessions||[]).map((pair,i)=>attCellHtml(pair,i,'session')).join('');
   const matchesHtml = (p.matches||[]).map((pair,i)=>attCellHtml(pair,i,'match')).join('');
@@ -1305,24 +1523,37 @@ function resultClass(result){
   return 'pending';
 }
 
+function venueLabel(v){
+  if (!v) return '\u2014';
+  const s = v.toString().trim().toUpperCase();
+  if (s === 'H') return 'Home';
+  if (s === 'A') return 'Away';
+  return v;
+}
+
 function renderFixtures(){
   const el = document.getElementById('fixturesSection');
   const fixtures = DATA.fixtures || [];
   const reports = DATA.matchReports || [];
   const matchSlots = (DATA.players[0] && DATA.players[0].matches) ? DATA.players[0].matches.length : 0;
+  const fixturesByGw = {};
+  fixtures.forEach(f => { fixturesByGw[f.gw] = f; });
 
   let fixturesHtml;
   if (fixtures.length > 0){
-    fixturesHtml = `<div class="fixture-list">` + fixtures.map(f => `
+    fixturesHtml = `<div class="fixture-list">` + fixtures.map(f => {
+      const played = !!(f.result && f.result.toString().trim());
+      return `
       <div class="fixture-row">
         <span class="fixture-gw">GW ${escapeHtml(f.gw!=null?f.gw:'—')}</span>
         <div class="fixture-main">
           <div class="fixture-opponent">${escapeHtml(f.opponent||'Opponent TBC')}</div>
-          <div class="fixture-meta">${escapeHtml(f.date||'Date TBC')} &middot; ${escapeHtml(f.homeAway||'—')}</div>
+          <div class="fixture-meta">${escapeHtml(f.date||'Date TBC')} &middot; ${escapeHtml(venueLabel(f.venue))}</div>
         </div>
-        <span class="fixture-score">${f.gf!=null && f.ga!=null ? f.gf+'\u2013'+f.ga : '\u2014'}</span>
-        <span class="fixture-result ${resultClass(f.result)}">${escapeHtml(f.result||'Not played')}</span>
-      </div>`).join('') + `</div>`;
+        <span class="fixture-score">${played && f.gf!=null && f.ga!=null ? f.gf+'\u2013'+f.ga : '\u2014'}</span>
+        <span class="fixture-result ${resultClass(f.result)}">${escapeHtml(played ? f.result : 'Upcoming')}</span>
+      </div>`;
+    }).join('') + `</div>`;
   } else {
     fixturesHtml = `
       <div class="empty-state">
@@ -1334,16 +1565,20 @@ function renderFixtures(){
 
   let reportsHtml;
   if (reports.length > 0){
-    reportsHtml = `<div class="fixture-list">` + reports.map(r => `
+    reportsHtml = `<div class="fixture-list">` + reports.map(r => {
+      const fx = fixturesByGw[r.gw] || {};
+      const played = !!(fx.result && fx.result.toString().trim());
+      return `
       <div class="fixture-row">
         <span class="fixture-gw">GW ${escapeHtml(r.gw!=null?r.gw:'—')}</span>
         <div class="fixture-main">
-          <div class="fixture-opponent">${escapeHtml(r.opponent||'Opponent TBC')}</div>
+          <div class="fixture-opponent">${escapeHtml(fx.opponent||'Opponent TBC')}</div>
           <div class="fixture-meta">${r.motm ? 'MOTM: '+escapeHtml(r.motm) : 'No MOTM recorded'}</div>
         </div>
-        <span class="fixture-score">${r.gf!=null && r.ga!=null ? r.gf+'\u2013'+r.ga : '\u2014'}</span>
-        <span class="fixture-result ${resultClass(r.result)}">${escapeHtml(r.result||'Not played')}</span>
-      </div>`).join('') + `</div>`;
+        <span class="fixture-score">${played && fx.gf!=null && fx.ga!=null ? fx.gf+'\u2013'+fx.ga : '\u2014'}</span>
+        <span class="fixture-result ${resultClass(fx.result)}">${escapeHtml(played ? fx.result : 'Not played')}</span>
+      </div>`;
+    }).join('') + `</div>`;
   } else {
     reportsHtml = `
       <div class="empty-state">
