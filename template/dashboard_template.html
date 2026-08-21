@@ -427,6 +427,9 @@ svg.scatter{display:block; width:100%; height:auto;}
 .band-grid{display:grid; grid-template-columns:1fr; gap:12px;}
 @media(min-width:700px){ .band-grid{grid-template-columns:repeat(3,1fr);} }
 .band-tile{background:var(--surface-2); border:1px solid var(--line-soft); border-radius:var(--radius-sm); padding:16px;}
+.band-tile.band-neutral{border-color:var(--line);}
+.band-tile.band-neutral .band-name{color:var(--muted);}
+.band-subnote{font-size:11px; color:var(--muted-2); line-height:1.4; margin-top:6px; margin-bottom:2px;}
 .band-tile .band-range{font-family:var(--font-mono); font-size:10.5px; color:var(--muted-2);}
 .band-tile .band-name{font-weight:700; font-size:13px; margin-top:3px;}
 .band-tile .band-count{font-family:var(--font-mono); font-size:11px; color:var(--muted); margin-top:7px;}
@@ -673,8 +676,7 @@ function renderOverview(){
 
     <div class="section-title"><span class="num">01</span> Match-readiness bands</div>
     <div class="panel">
-      <div class="panel-head"><h3>Season-score bands</h3><span class="hint">${NO_SEASON_DATA ? 'based on preseason grading' : 'players per band'}</span></div>
-      ${NO_SEASON_DATA ? '<div class="band-baseline-note">No training sessions or matches logged yet, so bands are estimated from preseason grading as a starting point. They\'ll switch to live training &amp; matchday data automatically once it\'s entered.</div>' : ''}
+      <div class="panel-head"><h3>Season-score bands</h3><span class="hint">${escapeHtml(DATA.homeScreen && DATA.homeScreen.source ? DATA.homeScreen.source + ' basis' : 'players per band')}</span></div>
       <div class="band-distribution" id="bandDistribution"></div>
       <div class="band-grid" id="bandGrid"></div>
     </div>
@@ -719,35 +721,11 @@ function renderGradeBars(){
     </div>`).join('');
 }
 
-function bandColorFor(idx, total){
-  const frac = total > 1 ? idx/(total-1) : 0;
-  if (frac >= 0.84) return 'green';
-  if (frac >= 0.34) return 'amber';
-  return 'red';
-}
-
-function bandForScore(score){
-  const bands = DATA.ragBands || [];
-  for (const b of bands){
-    if (score >= b.from && score <= b.to) return b;
-  }
-  return bands[0] || null;
-}
-
-// Before any training sessions or matches are logged, seasonScore is 0 for
-// everyone (it's a weighted blend of live attendance/work-rate/matchday
-// data that simply doesn't exist yet), which isn't a useful signal for
-// match-readiness. Use the preseason grading as a starting point instead -
-// it's real, differentiated coach assessment - and switch over to the true
-// weighted seasonScore automatically once real training/matchday data
-// starts coming in.
-function readinessScoreFor(p){
-  if (NO_SEASON_DATA){
-    const grade = gradeForPlayer(p.name);
-    if (grade != null && MAX_GRADE > 0) return (grade / MAX_GRADE) * 5;
-    return 0;
-  }
-  return p.seasonScore || 0;
+function bandColorFor(bandName){
+  if (bandName === 'Critical' || bandName === 'Not Ready') return 'red';
+  if (bandName === 'Match Ready') return 'green';
+  if (bandName === 'Insufficient data') return 'neutral';
+  return 'amber'; // Improving, Nearly Ready, Not Ready for 90 min
 }
 
 // Parses a return date out of a reason string like "...(back 2 Oct)".
@@ -784,50 +762,56 @@ function returnCountdownText(days){
   return `~${weeks} weeks to go`;
 }
 
+// Bands are computed entirely by the workbook (readinessBasis, minimum-sessions
+// threshold, thresholds themselves) and delivered ready-made in
+// homeScreen.readinessGroups[]. The site must not re-derive, re-filter, or
+// re-sort them - that was the bug: grade-based attributes (fitScore,
+// overallGrade) describe scouting quality, not match-readiness, and produced
+// wrong placements (e.g. Marianna showing "Match Ready" despite having too
+// few sessions to be assigned any band at all). Render exactly what's given.
 function renderBands(){
-  const bands = DATA.ragBands || [];
-  const unavailable = DATA.players.filter(p => p.availability && p.availability !== 'Yes');
-  const unavailableNames = new Set(unavailable.map(p=>p.name));
-  const availablePlayers = DATA.players.filter(p => !unavailableNames.has(p.name));
-  const total = availablePlayers.length || 1;
-
-  // The workbook's own precomputed band counts can go stale (e.g. showing 0
-  // even when players clearly fall in a band), so count live from each
-  // player's actual readiness score rather than trusting DATA.ragBands[].players.
-  // Unavailable players (injured/absent) are excluded here - a high grade
-  // doesn't mean "ready" if they physically can't play right now - and are
-  // shown separately below instead.
-  const bucketed = bands.map(b => ({
-    band: b,
-    players: availablePlayers.filter(p => bandForScore(readinessScoreFor(p)) === b)
-  }));
+  const groups = (DATA.homeScreen && DATA.homeScreen.readinessGroups) || [];
+  const ragBandsByName = {};
+  (DATA.ragBands||[]).forEach(b => { ragBandsByName[b.band] = b; });
+  const total = DATA.players.length || 1;
 
   const distEl = document.getElementById('bandDistribution');
-  distEl.innerHTML = bucketed.map((entry,i) => {
-    if (entry.players.length === 0) return '';
-    const color = bandColorFor(i, bands.length);
-    const pct = (entry.players.length/total)*100;
-    return `<div class="band-distribution-segment" style="width:${pct}%; background:var(--${color});" title="${escapeHtml(entry.band.band)}: ${entry.players.length}"></div>`;
+  distEl.innerHTML = groups.map(g => {
+    if (!g.count) return '';
+    const tone = bandColorFor(g.band);
+    const pct = (g.count/total)*100;
+    const bg = tone === 'neutral' ? 'var(--muted-2)' : `var(--${tone})`;
+    return `<div class="band-distribution-segment" style="width:${pct}%; background:${bg};" title="${escapeHtml(g.band)}: ${g.count}"></div>`;
   }).join('');
 
   const grid = document.getElementById('bandGrid');
-  grid.innerHTML = bucketed.map(entry => {
-    const b = entry.band;
-    const playersInBand = entry.players;
-    const chips = playersInBand.map(p=>`<span class="band-chip">${escapeHtml(p.name)}</span>`).join('');
+  grid.innerHTML = groups.map(g => {
+    const rb = ragBandsByName[g.band];
+    const isInsufficient = g.band === 'Insufficient data';
+    const rangeText = rb ? `${rb.from.toFixed(2)}\u2013${rb.to.toFixed(2)}` : 'No band';
+    const chips = (g.players||[]).map(name=>`<span class="band-chip">${escapeHtml(name)}</span>`).join('');
     return `
-    <div class="band-tile${playersInBand.length===0?' band-empty':''}">
-      <div class="band-range">${b.from.toFixed(2)}\u2013${b.to.toFixed(2)}</div>
-      <div class="band-name">${escapeHtml(b.band)}</div>
-      <div class="band-count">${playersInBand.length} player${playersInBand.length===1?'':'s'}</div>
-      ${playersInBand.length ? `<div class="band-chip-list">${chips}</div>` : ''}
+    <div class="band-tile${g.count===0?' band-empty':''}${isInsufficient?' band-neutral':''}">
+      <div class="band-range">${escapeHtml(rangeText)}</div>
+      <div class="band-name">${escapeHtml(g.band)}</div>
+      <div class="band-count">${g.count} player${g.count===1?'':'s'}</div>
+      ${isInsufficient ? '<div class="band-subnote">Not enough sessions attended to assign a band yet.</div>' : ''}
+      ${g.count ? `<div class="band-chip-list">${chips}</div>` : ''}
     </div>`;
   }).join('');
 
-  // Injured / unavailable players get their own callout with return dates,
-  // rather than being folded into the grade-based bands above.
+  renderInjuredReturns();
+}
+
+// Injured/unavailable players get a supplementary return-date view. This is
+// independent of the readiness bands above - per the workbook's own decision,
+// bands include every player (banded or in "Insufficient data"), so this
+// panel doesn't filter anything out of the bands; it's just additional
+// context about who's out and when they're expected back.
+function renderInjuredReturns(){
   const injuredEl = document.getElementById('injuredReturns');
   if (!injuredEl) return;
+  const unavailable = DATA.players.filter(p => p.availability && p.availability !== 'Yes');
   if (unavailable.length === 0){
     injuredEl.innerHTML = '';
     return;
@@ -853,7 +837,7 @@ function renderBands(){
   }).join('');
   injuredEl.innerHTML = `
     <div class="panel">
-      <div class="panel-head"><h3>Injured / unavailable</h3><span class="hint">excluded from bands above &middot; ${unavailable.length} player${unavailable.length===1?'':'s'}</span></div>
+      <div class="panel-head"><h3>Injured / unavailable</h3><span class="hint">${unavailable.length} player${unavailable.length===1?'':'s'} &middot; return dates</span></div>
       ${rows}
     </div>`;
 }
