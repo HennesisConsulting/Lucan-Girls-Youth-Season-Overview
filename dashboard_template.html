@@ -193,8 +193,8 @@ main{max-width:1180px; margin:0 auto; padding:18px 14px 8px;}
 /* ---------- Panels ---------- */
 .panel{background:var(--surface); border:1px solid var(--line-soft); border-radius:var(--radius); padding:16px; margin-bottom:14px;}
 .panel-head{display:flex; align-items:center; justify-content:space-between; margin-bottom:10px; gap:10px;}
-.panel-head h3{font-size:13px; font-weight:700; margin:0; color:var(--white);}
-.panel-head .hint{font-size:11px; color:var(--muted-2);}
+.panel-head h3{font-size:15px; font-weight:700; margin:0; color:var(--white);}
+.panel-head .hint{font-size:12.5px; color:var(--muted-2);}
 
 /* ---------- Bar rows ---------- */
 .bar-row{display:flex; align-items:center; gap:10px; padding:6px 0; border-bottom:1px solid var(--line-soft);}
@@ -259,6 +259,20 @@ svg.pitch{display:block; width:100%; height:auto; max-width:520px; margin:0 auto
 .ns-name{font-weight:700;}
 .ns-pos{color:var(--muted); font-size:11px; margin-left:6px;}
 .ns-grade{font-family:var(--font-mono); color:var(--gold-2); font-size:12px;}
+.ns-name-wrap{display:flex; align-items:center; min-width:0;}
+
+.sub-row{cursor:pointer; transition:background .12s;}
+.sub-row:hover{background:var(--surface-3);}
+.sub-row.sub-manual{border:1px solid var(--gold);}
+.sub-num{
+  width:20px; height:20px; border-radius:50%; background:var(--surface-3); color:var(--muted);
+  font-family:var(--font-mono); font-weight:700; font-size:10.5px;
+  display:flex; align-items:center; justify-content:center; flex-shrink:0; margin-right:10px;
+}
+.ns-empty{color:var(--muted-2); font-size:12px; font-style:italic; flex:1;}
+.also-available{margin-top:14px; padding-top:12px; border-top:1px dashed var(--line-soft);}
+.also-available-label{font-size:10.5px; text-transform:uppercase; letter-spacing:0.05em; color:var(--muted-2); margin-bottom:8px;}
+.also-available .ns-row{opacity:0.75;}
 
 .unavail-row{
   background:var(--surface-2); border-left:3px solid var(--crimson); border-radius:var(--radius-sm);
@@ -272,6 +286,68 @@ svg.pitch{display:block; width:100%; height:auto; max-width:520px; margin:0 auto
   display:inline-flex; align-items:center; gap:6px; font-size:11.5px; color:var(--gold-2);
   background:var(--gold-dim); padding:5px 10px; border-radius:99px; margin-bottom:12px;
 }
+.formation-toggle{display:flex; gap:8px; margin-bottom:16px;}
+.formation-btn{
+  background:var(--surface-2); border:1px solid var(--line); color:var(--muted);
+  padding:8px 16px; border-radius:10px; font-size:13px; font-weight:700;
+  font-family:var(--font-mono); cursor:pointer; transition:all .15s;
+}
+.formation-btn:hover:not(.active){border-color:var(--crimson-deep); color:var(--white);}
+.formation-btn.active{background:var(--crimson-dim); border-color:var(--crimson); color:var(--white);}
+
+.pitch-slot{cursor:pointer;}
+.pitch-slot:hover circle.pitch-player-dot{filter:brightness(1.2);}
+.pitch-slot:hover circle:not(.pitch-player-dot){stroke-width:3;}
+
+.xi-toolbar{display:flex; align-items:center; gap:10px; flex-wrap:wrap; margin-bottom:14px;}
+.xi-custom-badge{
+  display:inline-flex; align-items:center; gap:6px; font-size:11.5px; color:var(--crimson-2);
+  background:var(--crimson-dim); padding:5px 10px; border-radius:99px;
+}
+.xi-reset-btn{
+  background:none; border:1px solid var(--line); color:var(--muted); padding:6px 12px;
+  border-radius:8px; font-size:11.5px; cursor:pointer; font-family:inherit;
+}
+.xi-reset-btn:hover{color:var(--white); border-color:var(--crimson-deep);}
+.xi-hint{font-size:11px; color:var(--muted-2);}
+
+.xi-picker-overlay{
+  position:fixed; inset:0; background:rgba(0,0,0,0.65); z-index:300;
+  display:none; align-items:center; justify-content:center; padding:20px;
+}
+.xi-picker-overlay.open{display:flex;}
+.xi-picker-panel{
+  background:var(--surface); border:1px solid var(--line); border-radius:var(--radius);
+  width:100%; max-width:460px; max-height:82vh; display:flex; flex-direction:column; overflow:hidden;
+  box-shadow:0 20px 60px rgba(0,0,0,0.5);
+}
+.xi-picker-header{padding:16px 18px; border-bottom:1px solid var(--line-soft); display:flex; align-items:center; justify-content:space-between; flex-shrink:0;}
+.xi-picker-header h3{margin:0; font-size:15px; font-weight:700;}
+.xi-picker-close{background:none; border:none; color:var(--muted); font-size:22px; cursor:pointer; line-height:1; padding:4px;}
+.xi-picker-close:hover{color:var(--white);}
+.xi-picker-search{padding:12px 18px; flex-shrink:0;}
+.xi-picker-search input{
+  width:100%; background:var(--surface-2); border:1px solid var(--line); color:var(--white);
+  padding:9px 12px; border-radius:9px; font-size:13px; font-family:inherit;
+}
+.xi-picker-list{overflow-y:auto; padding:6px 10px; flex:1;}
+.xi-picker-row{
+  display:flex; align-items:center; justify-content:space-between; gap:10px;
+  padding:10px 10px; border-radius:9px; cursor:pointer; margin-bottom:2px;
+}
+.xi-picker-row:hover{background:var(--surface-2);}
+.xi-picker-row.current{background:var(--crimson-dim); border:1px solid var(--crimson);}
+.xi-picker-name-wrap{display:flex; align-items:center; min-width:0; flex-wrap:wrap; gap:6px;}
+.xi-picker-name{font-weight:600; font-size:13.5px; white-space:nowrap;}
+.xi-picker-meta{font-size:10.5px; color:var(--muted); font-family:var(--font-mono); white-space:nowrap;}
+.xi-picker-tag{font-size:9.5px; text-transform:uppercase; letter-spacing:0.05em; color:var(--gold-2); background:var(--gold-dim); padding:2px 7px; border-radius:99px; flex-shrink:0;}
+.xi-picker-grade{font-family:var(--font-mono); color:var(--gold-2); font-weight:700; font-size:13px; flex-shrink:0;}
+.xi-picker-footer{padding:10px 18px; border-top:1px solid var(--line-soft); flex-shrink:0;}
+.xi-picker-clear-btn{
+  width:100%; background:var(--surface-2); border:1px solid var(--line); color:var(--muted);
+  padding:9px; border-radius:9px; cursor:pointer; font-size:12.5px; font-family:inherit;
+}
+.xi-picker-clear-btn:hover{color:var(--white); border-color:var(--crimson-deep);}
 
 /* ---------- Player detail ---------- */
 .player-picker{display:flex; flex-direction:column; gap:10px; margin-bottom:14px;}
@@ -417,6 +493,40 @@ svg.scatter{display:block; width:100%; height:auto;}
 .fixture-result.draw{background:var(--amber-dim); color:#fcd34d;}
 .fixture-result.loss{background:var(--red-dim); color:#fca5a5;}
 .fixture-result.pending{background:var(--surface-3); color:var(--muted-2);}
+
+.match-report-card{
+  background:var(--surface); border:1px solid var(--line-soft); border-radius:var(--radius);
+  padding:18px; margin-bottom:14px;
+}
+.match-report-header{display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap; margin-bottom:6px;}
+.match-report-opponent{font-weight:700; font-size:15px; margin-left:8px;}
+.match-report-score-wrap{display:flex; align-items:center; gap:10px;}
+.match-section-title{
+  font-size:11px; text-transform:uppercase; letter-spacing:0.07em; color:var(--gold-2); font-weight:700;
+  margin:16px 0 8px;
+}
+table.match-player-table{width:100%; border-collapse:collapse; font-size:12.5px; margin-bottom:4px;}
+table.match-player-table thead th{
+  text-align:left; padding:7px 10px; background:var(--surface-2);
+  font-size:10px; text-transform:uppercase; letter-spacing:0.05em; color:var(--muted);
+  white-space:nowrap;
+}
+table.match-player-table thead th:nth-child(n+3){text-align:center;}
+table.match-player-table tbody td{padding:7px 10px; border-bottom:1px solid var(--line-soft);}
+table.match-player-table tbody tr:last-child td{border-bottom:none;}
+table.match-player-table .mp-name{font-weight:600;}
+table.match-player-table .mp-pos{color:var(--muted); font-size:11.5px; white-space:nowrap;}
+table.match-player-table .mp-pos2{color:var(--muted-2); font-size:10.5px;}
+table.match-player-table .mp-stat{text-align:center; font-family:var(--font-mono); color:var(--muted);}
+table.match-player-table .mp-rating{text-align:center; font-family:var(--font-mono); font-weight:700; color:var(--gold-2);}
+table.match-player-table tr.sub-unused{opacity:0.55;}
+table.match-player-table tr.sub-unused .mp-rating{color:var(--muted-2);}
+.match-notes-block{
+  background:var(--surface-2); border-radius:var(--radius-sm); padding:11px 13px; margin-top:12px;
+  border-left:3px solid var(--gold);
+}
+.match-notes-block .lbl{font-size:10px; text-transform:uppercase; letter-spacing:0.06em; color:var(--gold-2); font-weight:700; margin-bottom:4px;}
+.match-notes-block p{margin:0; font-size:12.5px; color:var(--white); line-height:1.5;}
 .club-chip-grid{display:flex; flex-wrap:wrap; gap:7px;}
 .club-chip{
   background:var(--surface-2); border:1px solid var(--line-soft); border-radius:99px;
@@ -455,16 +565,16 @@ svg.scatter{display:block; width:100%; height:auto;}
 
 /* ---------- Leaderboard ---------- */
 .leaderboard{display:flex; flex-direction:column; gap:8px;}
-.leaderboard-row{display:flex; align-items:center; gap:11px; background:var(--surface-2); border-radius:var(--radius-sm); padding:9px 12px;}
+.leaderboard-row{display:flex; align-items:center; gap:11px; background:var(--surface-2); border-radius:var(--radius-sm); padding:11px 14px;}
 .leaderboard-rank{
-  width:22px; height:22px; border-radius:50%; background:var(--surface-3); color:var(--muted);
-  font-family:var(--font-mono); font-weight:700; font-size:11px;
+  width:26px; height:26px; border-radius:50%; background:var(--surface-3); color:var(--muted);
+  font-family:var(--font-mono); font-weight:700; font-size:13px;
   display:flex; align-items:center; justify-content:center; flex-shrink:0;
 }
 .leaderboard-row:first-child .leaderboard-rank{background:var(--gold-dim); color:var(--gold-2);}
-.leaderboard-name{flex:1; font-weight:600; font-size:13px; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;}
-.leaderboard-pos{color:var(--muted-2); font-size:10.5px; font-family:var(--font-mono); flex-shrink:0; margin-left:10px;}
-.leaderboard-value{font-family:var(--font-mono); font-weight:700; color:var(--gold-2); font-size:13px; flex-shrink:0; margin-left:10px; min-width:44px; text-align:right;}
+.leaderboard-name{flex:1; font-weight:600; font-size:15px; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;}
+.leaderboard-pos{color:var(--muted-2); font-size:12px; font-family:var(--font-mono); flex-shrink:0; margin-left:10px;}
+.leaderboard-value{font-family:var(--font-mono); font-weight:700; color:var(--gold-2); font-size:15px; flex-shrink:0; margin-left:10px; min-width:48px; text-align:right;}
 
 /* ---------- Legend / Weights ---------- */
 .legend-row{display:flex; gap:14px; flex-wrap:wrap; font-size:11px; color:var(--muted); margin-top:10px;}
@@ -527,6 +637,22 @@ footer{text-align:center; padding:22px 14px 10px; color:var(--muted-2); font-siz
 <div id="errorBanner"></div>
 <div id="toast"></div>
 
+<div class="xi-picker-overlay" id="xiPickerOverlay">
+  <div class="xi-picker-panel">
+    <div class="xi-picker-header">
+      <h3 id="xiPickerTitle">Choose a player</h3>
+      <button type="button" class="xi-picker-close" id="xiPickerClose" aria-label="Close">&times;</button>
+    </div>
+    <div class="xi-picker-search">
+      <input type="text" id="xiPickerSearch" placeholder="Search player...">
+    </div>
+    <div class="xi-picker-list" id="xiPickerList"></div>
+    <div class="xi-picker-footer">
+      <button type="button" class="xi-picker-clear-btn" id="xiPickerClear">Clear this slot</button>
+    </div>
+  </div>
+</div>
+
 <script>
 let DATA = __DATA_PLACEHOLDER__;
 const SVG_NS = 'http://www.w3.org/2000/svg';
@@ -579,6 +705,8 @@ function renderAll(){
   COMPARE_POS_FILTER = '';
   SQUAD_FILTERS = { q:'', pos:'' };
   PLAYER_SEARCH = '';
+  SELECTED_FORMATION = DATA.teamSelection.formation || null;
+  ({ xi: MANUAL_XI, subs: MANUAL_SUBS } = loadManualState()); // re-validate against the (possibly new) data fingerprint
 
   renderOverview();
   renderSquadTable();
@@ -626,6 +754,18 @@ function init(){
       console.error(err);
       showError(err.message || 'Could not read that workbook. Check it matches the expected Web Output format.');
     }
+  });
+
+  document.getElementById('xiPickerClose').addEventListener('click', closeXiPicker);
+  document.getElementById('xiPickerOverlay').addEventListener('click', (e)=>{
+    if (e.target.id === 'xiPickerOverlay') closeXiPicker(); // click on backdrop, not the panel itself
+  });
+  document.getElementById('xiPickerSearch').addEventListener('input', (e)=>{
+    renderXiPickerList(e.target.value);
+  });
+  document.getElementById('xiPickerClear').addEventListener('click', clearXiSlot);
+  document.addEventListener('keydown', (e)=>{
+    if (e.key === 'Escape') closeXiPicker();
   });
 }
 
@@ -688,7 +828,10 @@ function renderOverview(){
     <div class="section-title"><span class="num">03</span> Top performers in training</div>
     <div class="grid-2" id="leaderboardGrid"></div>
 
-    <div class="section-title"><span class="num">04</span> How season score is weighted</div>
+    <div class="section-title"><span class="num">04</span> Season leaders</div>
+    <div class="grid-2" id="scorersGrid"></div>
+
+    <div class="section-title"><span class="num">05</span> How season score is weighted</div>
     <div class="panel">
       <div class="panel-head"><h3>Weighting</h3><span class="hint">applied once matches &amp; sessions are logged</span></div>
       <div class="weights-grid" id="weightsGrid"></div>
@@ -698,6 +841,7 @@ function renderOverview(){
   renderBands();
   renderGradeBars();
   renderLeaderboards();
+  renderScorers();
   renderWeights();
 }
 
@@ -895,6 +1039,57 @@ function renderLeaderboards(){
     <div class="panel">
       <div class="panel-head"><h3>Last ${hs.windowDays || 7} days</h3><span class="hint">top 5</span></div>
       <div class="leaderboard">${lastWeekRows || '<div class="empty-state">No sessions in this window</div>'}</div>
+    </div>
+  `;
+}
+
+// Renders homeScreen.topScorers[] / topAssists[] exactly as supplied - same
+// principle as readiness bands and the training leaderboards: the workbook
+// already sorts and ranks these, so the site just displays them.
+function renderScorers(){
+  const grid = document.getElementById('scorersGrid');
+  const hs = DATA.homeScreen || {};
+  const topScorers = hs.topScorers || [];
+  const topAssists = hs.topAssists || [];
+
+  if (topScorers.length === 0 && topAssists.length === 0){
+    grid.innerHTML = `
+      <div class="panel">
+        <div class="panel-head"><h3>Top scorers</h3><span class="hint">top 10</span></div>
+        <div class="empty-state">No goals logged yet</div>
+      </div>
+      <div class="panel">
+        <div class="panel-head"><h3>Top assists</h3><span class="hint">top 10</span></div>
+        <div class="empty-state">No assists logged yet</div>
+      </div>
+    `;
+    return;
+  }
+
+  const scorerRows = topScorers.map(e => `
+    <div class="leaderboard-row">
+      <div class="leaderboard-rank">${e.rank}</div>
+      <div class="leaderboard-name">${escapeHtml(e.name)}</div>
+      <div class="leaderboard-pos">${e.assists||0} A &middot; ${e.apps||0} apps</div>
+      <div class="leaderboard-value">${e.goals||0}</div>
+    </div>`).join('');
+
+  const assistRows = topAssists.map(e => `
+    <div class="leaderboard-row">
+      <div class="leaderboard-rank">${e.rank}</div>
+      <div class="leaderboard-name">${escapeHtml(e.name)}</div>
+      <div class="leaderboard-pos">${e.goals||0} G &middot; ${e.apps||0} apps</div>
+      <div class="leaderboard-value">${e.assists||0}</div>
+    </div>`).join('');
+
+  grid.innerHTML = `
+    <div class="panel">
+      <div class="panel-head"><h3>Top scorers</h3><span class="hint">top 10</span></div>
+      <div class="leaderboard">${scorerRows || '<div class="empty-state">No goals logged yet</div>'}</div>
+    </div>
+    <div class="panel">
+      <div class="panel-head"><h3>Top assists</h3><span class="hint">top 10</span></div>
+      <div class="leaderboard">${assistRows || '<div class="empty-state">No assists logged yet</div>'}</div>
     </div>
   `;
 }
@@ -1101,56 +1296,193 @@ function shortName(name){
   return parts[0] + ' ' + parts[parts.length-1];
 }
 
+let SELECTED_FORMATION = DATA.teamSelection.formation || null;
+
+// Manual "what-if" XI + subs overrides. This never touches the workbook -
+// it's a local, per-browser layer on top of the graded picks. Persisted to
+// localStorage so a coach's what-if lineup survives a reload, but discarded
+// automatically if the underlying squad data has moved on (new export,
+// different roster) so it can't silently reference players or formations
+// that no longer make sense.
+//
+// MANUAL_XI:   { formation: { slotNumber(1-11): playerName | null } }
+// MANUAL_SUBS: { formation: { benchSlot(1-9): playerName | null } }
+// null in either means "manually cleared", distinct from "no override" (undefined).
+const MAX_SUBS = 9;
+const XI_STORAGE_KEY = 'lucanWebOutputManualXI_v2';
+function dataFingerprint(){
+  return (DATA.meta && DATA.meta.generated || '') + '|' + DATA.players.length;
+}
+function loadManualState(){
+  try{
+    const raw = localStorage.getItem(XI_STORAGE_KEY);
+    if (!raw) return { xi:{}, subs:{} };
+    const parsed = JSON.parse(raw);
+    if (parsed.fingerprint !== dataFingerprint()) return { xi:{}, subs:{} };
+    return { xi: parsed.xi || {}, subs: parsed.subs || {} };
+  } catch(e){ return { xi:{}, subs:{} }; }
+}
+function saveManualState(){
+  try{
+    localStorage.setItem(XI_STORAGE_KEY, JSON.stringify({ fingerprint: dataFingerprint(), xi: MANUAL_XI, subs: MANUAL_SUBS }));
+  } catch(e){ /* private browsing / storage disabled - fail silently, it's a nice-to-have */ }
+}
+let { xi: MANUAL_XI, subs: MANUAL_SUBS } = loadManualState();
+let XI_PICKER_TARGET = null; // { formation, slot } while the picker is open
+
+// Which side of the pitch a position label belongs on. Slot order in the
+// workbook doesn't reliably match left-to-right pitch order (e.g. "RWB"
+// can come before "LWB" in the data), so placement must key off what the
+// label actually says rather than array position - otherwise a right-back
+// can end up drawn on the left side of the pitch and vice versa.
+function sideOfPosition(pos){
+  if (!pos) return 'C';
+  const p = pos.trim().toUpperCase();
+  if (p.startsWith('L')) return 'L';
+  if (p.startsWith('R')) return 'R';
+  return 'C';
+}
+
+// Single source of truth for "who's currently where" in a given formation,
+// combining the workbook's graded picks with any manual XI/sub overrides.
+// Used both to render the Team Selection tab and by the picker overlay (to
+// tag players as "on pitch" / "sub N" and to know what to vacate when
+// someone is moved). Keeping this in one place means the pitch, the bench,
+// and the picker can never disagree with each other.
+function computeEffectiveRoster(formation){
+  const formationsData = DATA.teamSelection.formations || null;
+  let startingXI, notSelectedRaw;
+  if (formationsData && formationsData[formation]){
+    startingXI = formationsData[formation].startingXI || [];
+    notSelectedRaw = formationsData[formation].notSelected || [];
+  } else {
+    startingXI = DATA.teamSelection.startingXI || [];
+    notSelectedRaw = DATA.teamSelection.notSelected || [];
+  }
+
+  const unavailablePlayers = DATA.players.filter(p => p.availability && p.availability !== 'Yes');
+  const unavailableNames = new Set(unavailablePlayers.map(p=>p.name));
+
+  const rowSizes = computeFormationLayout(formation, 10);
+  const rowCount = rowSizes.length;
+  function yForRow(rowIndex){ if (rowCount<=1) return 48; return 78 - rowIndex*(78-18)/(rowCount-1); }
+  function xForSlot(indexInRow, rowSize){ if (rowSize<=1) return 50; return 15 + indexInRow*(85-15)/(rowSize-1); }
+  function yForSlotInRow(indexInRow, rowIndex, size){
+    const baseY = yForRow(rowIndex);
+    const isCenterOfWideRow = size>=5 && size%2===1 && indexInRow===Math.floor(size/2);
+    if (!isCenterOfWideRow) return baseY;
+    const nextY = rowIndex+1<rowCount ? yForRow(rowIndex+1) : 18;
+    return baseY - 0.4*(baseY-nextY);
+  }
+  const rowSlotNumbers = [];
+  let cursor = 2;
+  rowSizes.forEach(size => { const s=[]; for(let j=0;j<size;j++){ s.push(cursor); cursor++; } rowSlotNumbers.push(s); });
+
+  const formationOverrides = MANUAL_XI[formation] || {};
+  function hasXiOverride(slot){ return Object.prototype.hasOwnProperty.call(formationOverrides, slot); }
+  const placed = [];
+  function placeSlot(slot, gradedFilled, coord, fallbackLabel){
+    const gradedDisplayPosition = gradedFilled ? gradedFilled.position : null;
+    const label = gradedDisplayPosition || fallbackLabel;
+    if (hasXiOverride(slot)){
+      const overrideName = formationOverrides[slot];
+      if (!overrideName){
+        placed.push({ slot, position: label, coord, vacant:true, manualVacated:true });
+      } else {
+        const gradedEntry = startingXI.find(s=>s.player===overrideName) || notSelectedRaw.find(ns=>ns.player===overrideName);
+        placed.push({ slot, position: label, player: overrideName,
+          fitScore: gradedEntry ? gradedEntry.fitScore : null,
+          overallGrade: gradedEntry ? gradedEntry.overallGrade : null,
+          coord, vacant:false, manualPick:true });
+      }
+    } else if (gradedFilled){
+      placed.push({ ...gradedFilled, position: gradedDisplayPosition, coord, vacant:false });
+    } else {
+      placed.push({ slot, position: fallbackLabel, coord, vacant:true });
+    }
+  }
+  { const filled = startingXI.find(s=>s.slot===1); placeSlot(1, filled, { x:50, y:92, row:-1, indexInRow:0, rowSize:1 }, 'GK'); }
+  rowSlotNumbers.forEach((slots, rowIndex) => {
+    const size = slots.length;
+    const sideOrder = { L:0, C:1, R:2 };
+    const ordered = slots.slice().sort((a,b) => {
+      const fa = startingXI.find(s=>s.slot===a), fb = startingXI.find(s=>s.slot===b);
+      return sideOrder[sideOfPosition(fa?fa.position:null)] - sideOrder[sideOfPosition(fb?fb.position:null)];
+    });
+    ordered.forEach((slot, indexInRow) => {
+      const filled = startingXI.find(s=>s.slot===slot);
+      const coord = { x: xForSlot(indexInRow, size), y: yForSlotInRow(indexInRow, rowIndex, size), row: rowIndex, indexInRow, rowSize: size };
+      const isElevatedCenter = size>=5 && size%2===1 && indexInRow===Math.floor(size/2);
+      const gradedWithElevation = filled ? { ...filled, position: (isElevatedCenter && filled.position==='CM') ? 'ACM' : filled.position } : null;
+      placeSlot(slot, gradedWithElevation, coord, rowLabel(rowIndex, rowCount));
+    });
+  });
+  const vacantCount = placed.filter(p=>p.vacant).length;
+  const onPitchNames = new Set(placed.filter(p=>!p.vacant).map(p=>p.player));
+
+  function gradeForAvailablePlayer(name){
+    const fromNotSelected = notSelectedRaw.find(ns=>ns.player===name);
+    const fromStartingXI = startingXI.find(s=>s.player===name);
+    return fromNotSelected ? fromNotSelected.overallGrade : (fromStartingXI ? fromStartingXI.overallGrade : gradeForPlayer(name));
+  }
+  const availablePool = DATA.players
+    .filter(p => !unavailableNames.has(p.name) && !onPitchNames.has(p.name))
+    .map(p => ({ name:p.name, position:p.position, grade: gradeForAvailablePlayer(p.name) }))
+    .sort((a,b) => (b.grade||0)-(a.grade||0));
+
+  // 9-slot bench: defaults to the next-highest-graded available player,
+  // but any slot can be individually overridden - same mechanism as the XI.
+  const subOverridesForFormation = MANUAL_SUBS[formation] || {};
+  const subsArr = new Array(MAX_SUBS+1).fill(null);
+  const usedInSubs = new Set();
+  for (let i=1; i<=MAX_SUBS; i++){
+    if (Object.prototype.hasOwnProperty.call(subOverridesForFormation, i)){
+      const name = subOverridesForFormation[i];
+      if (name){
+        usedInSubs.add(name);
+        subsArr[i] = { slot:i, vacant:false, player:name, position:(DATA.players.find(p=>p.name===name)||{}).position, overallGrade: gradeForAvailablePlayer(name), manualPick:true };
+      } else {
+        subsArr[i] = { slot:i, vacant:true, manualVacated:true };
+      }
+    }
+  }
+  let poolIdx = 0;
+  for (let i=1; i<=MAX_SUBS; i++){
+    if (subsArr[i]) continue;
+    while (poolIdx < availablePool.length && usedInSubs.has(availablePool[poolIdx].name)) poolIdx++;
+    if (poolIdx < availablePool.length){
+      const cand = availablePool[poolIdx];
+      usedInSubs.add(cand.name);
+      subsArr[i] = { slot:i, vacant:false, player:cand.name, position:cand.position, overallGrade:cand.grade };
+      poolIdx++;
+    } else {
+      subsArr[i] = { slot:i, vacant:true };
+    }
+  }
+  const subsList = subsArr.slice(1);
+  const alsoAvailable = availablePool.filter(p => !usedInSubs.has(p.name));
+
+  return {
+    formation, startingXI, notSelectedRaw, unavailablePlayers, unavailableNames,
+    placed, vacantCount, onPitchNames, formationOverrides,
+    availablePool, subOverridesForFormation, subsList, usedInSubs, alsoAvailable
+  };
+}
+
 function renderTeamSelection(){
   const el = document.getElementById('teamSection');
-  const startingXI = DATA.teamSelection.startingXI || [];
-  if (startingXI.length === 0){
-    el.innerHTML = '<div class="section-title"><span class="num">01</span> Best XI &mdash; ' + escapeHtml(DATA.teamSelection.formation||'') + '</div><div class="empty-state">No Best XI selection found.</div>';
+  const formationsData = DATA.teamSelection.formations || null;
+  const availableFormations = formationsData ? Object.keys(formationsData) : [];
+  const formation = (formationsData && formationsData[SELECTED_FORMATION]) ? SELECTED_FORMATION : (DATA.teamSelection.formation || '');
+
+  if ((formationsData ? (formationsData[formation]||{}).startingXI : DATA.teamSelection.startingXI || []).length === 0){
+    el.innerHTML = '<div class="section-title"><span class="num">01</span> Best XI &mdash; ' + escapeHtml(formation) + '</div><div class="empty-state">No Best XI selection found.</div>';
     return;
   }
 
-  const formation = DATA.teamSelection.formation || '';
-  const rowSizes = computeFormationLayout(formation, 10); // 10 outfield slots, GK is separate
-  const rowCount = rowSizes.length;
-
-  // y position per row: defense nearest the GK's own goal (high y), attack
-  // nearest the opponent's goal (low y), evenly spaced across however many
-  // rows this formation actually has.
-  function yForRow(rowIndex){
-    if (rowCount <= 1) return 48;
-    return 78 - rowIndex * (78-18)/(rowCount-1);
-  }
-  function xForSlot(indexInRow, rowSize){
-    if (rowSize <= 1) return 50;
-    return 15 + indexInRow * (85-15)/(rowSize-1);
-  }
-
-  // Map every slot number (1-11) to its row/position, purely from the
-  // formation's row sizes - independent of whether that slot is actually
-  // filled, so a missing slot can still be placed and marked vacant.
-  const slotLayout = {}; // slot -> {x, y, row}
-  slotLayout[1] = { x:50, y:92, row:-1 }; // GK
-  let slotCursor = 2;
-  rowSizes.forEach((size, rowIndex) => {
-    for (let j=0; j<size; j++){
-      slotLayout[slotCursor] = { x: xForSlot(j, size), y: yForRow(rowIndex), row: rowIndex, indexInRow: j, rowSize: size };
-      slotCursor++;
-    }
-  });
-
-  const totalSlots = 1 + rowSizes.reduce((a,b)=>a+b,0);
-  const placed = [];
-  for (let slot=1; slot<=totalSlots; slot++){
-    const filled = startingXI.find(s=>s.slot===slot);
-    const coord = slotLayout[slot] || { x:50, y:50, row:0, indexInRow:0, rowSize:1 };
-    if (filled){
-      placed.push({ ...filled, coord, vacant:false });
-    } else {
-      const label = slot===1 ? 'GK' : rowLabel(coord.row, rowCount);
-      placed.push({ slot, position:label, coord, vacant:true });
-    }
-  }
-  const vacantCount = placed.filter(p=>p.vacant).length;
+  const roster = computeEffectiveRoster(formation);
+  const { placed, vacantCount, unavailablePlayers, unavailableNames, onPitchNames, formationOverrides, subOverridesForFormation, subsList, alsoAvailable } = roster;
+  const isCustomXI = Object.keys(formationOverrides).length > 0 || Object.keys(subOverridesForFormation).length > 0;
 
   const w = 400, h = 560;
   let svg = `<svg class="pitch" viewBox="0 0 ${w} ${h}" xmlns="${SVG_NS}">`;
@@ -1168,41 +1500,47 @@ function renderTeamSelection(){
 
   placed.forEach(p=>{
     const x = (p.coord.x/100)*w, y = (p.coord.y/100)*h;
-    // Rows with 5+ players don't have enough horizontal room between dots
-    // for full names at this font size - alternate label height so
-    // neighboring names don't run into each other, same approach real
-    // lineup graphics use for busy midfield lines.
     const dense = (p.coord.rowSize||1) >= 5;
     const stagger = dense && (p.coord.indexInRow % 2 === 1) ? 13 : 0;
     if (p.vacant){
-      svg += `<g class="pitch-slot">
+      svg += `<g class="pitch-slot" data-slot="${p.slot}">
         <circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="19" fill="rgba(0,0,0,0.25)" stroke="var(--gold-2)" stroke-width="2" stroke-dasharray="4,3"/>
         <text x="${x.toFixed(1)}" y="${(y+4).toFixed(1)}" text-anchor="middle" style="font-size:11px;font-weight:800;fill:var(--gold-2);font-family:var(--font-mono);">${escapeHtml(p.position)}</text>
         <text class="pitch-vacant-name" x="${x.toFixed(1)}" y="${(y+32+stagger).toFixed(1)}">Vacant</text>
-        <text class="pitch-vacant-fit" x="${x.toFixed(1)}" y="${(y+43+stagger).toFixed(1)}">needs a pick</text>
+        <text class="pitch-vacant-fit" x="${x.toFixed(1)}" y="${(y+43+stagger).toFixed(1)}">${p.manualVacated ? 'cleared by you' : 'needs a pick'}</text>
       </g>`;
     } else {
-      svg += `<g class="pitch-slot">
-        <circle class="pitch-player-dot" cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="19" fill="var(--crimson)" stroke="white" stroke-width="2"/>
+      svg += `<g class="pitch-slot" data-slot="${p.slot}">
+        <circle class="pitch-player-dot" cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="19" fill="var(--crimson)" stroke="${p.manualPick ? 'var(--gold-2)' : 'white'}" stroke-width="${p.manualPick ? 3 : 2}"/>
         <text x="${x.toFixed(1)}" y="${(y+4).toFixed(1)}" text-anchor="middle" style="font-size:11px;font-weight:800;fill:white;font-family:var(--font-mono);">${escapeHtml(p.position)}</text>
         <text class="pitch-player-name" x="${x.toFixed(1)}" y="${(y+32+stagger).toFixed(1)}">${escapeHtml(shortName(p.player))}</text>
-        <text class="pitch-player-fit" x="${x.toFixed(1)}" y="${(y+43+stagger).toFixed(1)}">fit ${fmt1(p.fitScore)}</text>
+        <text class="pitch-player-fit" x="${x.toFixed(1)}" y="${(y+43+stagger).toFixed(1)}">${p.manualPick ? 'your pick' : 'fit ' + fmt1(p.fitScore)}</text>
       </g>`;
     }
   });
   svg += `</svg>`;
 
-  // players unavailable (injured / absent / etc.) — sourced from each player's own record
-  const unavailablePlayers = DATA.players.filter(p => p.availability && p.availability !== 'Yes');
-  const unavailableNames = new Set(unavailablePlayers.map(p=>p.name));
-
-  // "not selected" should only show players who are actually available but weren't picked
-  const notSelected = (DATA.teamSelection.notSelected || []).filter(ns => !unavailableNames.has(ns.player));
-  const notSelHtml = notSelected.map(ns=>`
-    <div class="ns-row">
-      <span><span class="ns-name">${escapeHtml(ns.player)}</span><span class="ns-pos">${escapeHtml((ns.position||'').trim())}</span></span>
-      <span class="ns-grade">${fmt1(ns.overallGrade)}</span>
+  const filledSubsCount = subsList.filter(s=>!s.vacant).length;
+  const subsHtml = subsList.map(s => s.vacant ? `
+    <div class="ns-row sub-row" data-sub-slot="${s.slot}">
+      <span class="sub-num">${s.slot}</span>
+      <span class="ns-empty">${s.manualVacated ? 'Cleared — tap to add' : 'Empty bench slot — tap to add'}</span>
+    </div>` : `
+    <div class="ns-row sub-row${s.manualPick?' sub-manual':''}" data-sub-slot="${s.slot}">
+      <span class="sub-num">${s.slot}</span>
+      <span class="ns-name-wrap"><span class="ns-name">${escapeHtml(s.player)}</span><span class="ns-pos">${escapeHtml((s.position||'').trim())}</span></span>
+      <span class="ns-grade">${fmt1(s.overallGrade)}</span>
     </div>`).join('');
+
+  const alsoAvailableHtml = alsoAvailable.length ? `
+    <div class="also-available">
+      <div class="also-available-label">Also available &middot; not in the ${MAX_SUBS}-sub bench</div>
+      ${alsoAvailable.map(p=>`
+        <div class="ns-row" data-sub-slot="">
+          <span class="ns-name-wrap"><span class="ns-name">${escapeHtml(p.name)}</span><span class="ns-pos">${escapeHtml((p.position||'').trim())}</span></span>
+          <span class="ns-grade">${fmt1(p.grade)}</span>
+        </div>`).join('')}
+    </div>` : '';
 
   const unavailHtml = unavailablePlayers.map(p=>{
     const reasonEntry = (DATA.teamSelection.unavailable||[]).find(u=>u.player===p.name);
@@ -1214,18 +1552,35 @@ function renderTeamSelection(){
     </div>`;
   }).join('');
 
+  const formationToggleHtml = availableFormations.length > 1 ? `
+    <div class="formation-toggle">
+      ${availableFormations.map(f => `<button type="button" class="formation-btn${f===formation?' active':''}" data-formation="${escapeHtml(f)}">${escapeHtml(f)}</button>`).join('')}
+    </div>` : '';
+
+  const toolbarHtml = `
+    <div class="xi-toolbar">
+      <span class="xi-hint">Tap any player to swap them out</span>
+      ${isCustomXI ? `
+        <span class="xi-custom-badge">Custom XI — edited by you</span>
+        <button type="button" class="xi-reset-btn" id="xiResetBtn">Reset to graded picks</button>
+      ` : ''}
+    </div>`;
+
   el.innerHTML = `
-    <div class="section-title"><span class="num">01</span> Best XI &mdash; ${escapeHtml(DATA.teamSelection.formation)}</div>
+    <div class="section-title"><span class="num">01</span> Best XI &mdash; ${escapeHtml(formation)}</div>
+    ${formationToggleHtml}
+    ${toolbarHtml}
     <div class="grid-2">
       <div class="panel">
-        <div class="panel-head"><h3>Starting ${escapeHtml(DATA.teamSelection.formation)}</h3><span class="hint">graded from training &amp; matchday data</span></div>
-        ${vacantCount > 0 ? `<div class="vacancy-note">${vacantCount} position${vacantCount===1?'':'s'} vacant — best pick was unavailable, no replacement chosen</div>` : ''}
+        <div class="panel-head"><h3>Starting ${escapeHtml(formation)}</h3><span class="hint">graded from training &amp; matchday data</span></div>
+        ${vacantCount > 0 ? `<div class="vacancy-note">${vacantCount} position${vacantCount===1?'':'s'} vacant — ${isCustomXI ? 'tap it to fill' : 'best pick was unavailable, no replacement chosen'}</div>` : ''}
         <div class="pitch-wrap">${svg}</div>
       </div>
       <div>
         <div class="panel" style="margin-bottom:14px;">
-          <div class="panel-head"><h3>Not selected</h3><span class="hint">${notSelected.length} players</span></div>
-          <div class="not-selected-list">${notSelHtml || '<div class="empty-state">Everyone available made the XI.</div>'}</div>
+          <div class="panel-head"><h3>Subs</h3><span class="hint">${filledSubsCount} of ${MAX_SUBS} filled</span></div>
+          <div class="not-selected-list">${subsHtml}</div>
+          ${alsoAvailableHtml}
         </div>
         <div class="panel">
           <div class="panel-head"><h3>Unavailable</h3><span class="hint">${unavailablePlayers.length} player${unavailablePlayers.length===1?'':'s'}</span></div>
@@ -1234,6 +1589,167 @@ function renderTeamSelection(){
       </div>
     </div>
   `;
+
+  el.querySelectorAll('.formation-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      SELECTED_FORMATION = btn.dataset.formation;
+      renderTeamSelection();
+    });
+  });
+
+  const resetBtn = document.getElementById('xiResetBtn');
+  if (resetBtn){
+    resetBtn.addEventListener('click', ()=>{
+      delete MANUAL_XI[formation];
+      delete MANUAL_SUBS[formation];
+      saveManualState();
+      renderTeamSelection();
+    });
+  }
+
+  el.querySelectorAll('.pitch-slot').forEach(g=>{
+    const slot = parseInt(g.dataset.slot, 10);
+    const entry = placed.find(p=>p.slot===slot);
+    g.addEventListener('click', ()=>{
+      openXiPicker('xi', formation, slot, entry && !entry.vacant ? entry.player : null);
+    });
+  });
+
+  el.querySelectorAll('.sub-row[data-sub-slot]').forEach(row=>{
+    if (row.dataset.subSlot === '') return; // "also available" rows aren't clickable slots
+    const slot = parseInt(row.dataset.subSlot, 10);
+    const entry = subsList.find(s=>s.slot===slot);
+    row.addEventListener('click', ()=>{
+      openXiPicker('sub', formation, slot, entry && !entry.vacant ? entry.player : null);
+    });
+  });
+}
+
+/* ---- Manual XI picker overlay ---- */
+
+let XI_PICKER_CONTEXT = null; // { type:'xi'|'sub', formation, slot, currentOccupant }
+
+function openXiPicker(type, formation, slot, currentOccupant){
+  XI_PICKER_CONTEXT = { type, formation, slot, currentOccupant };
+  const overlay = document.getElementById('xiPickerOverlay');
+  const searchInput = document.getElementById('xiPickerSearch');
+  const title = document.getElementById('xiPickerTitle');
+  if (title) title.textContent = type === 'sub' ? 'Choose a substitute' : 'Choose a player';
+  searchInput.value = '';
+  renderXiPickerList('');
+  overlay.classList.add('open');
+  setTimeout(()=>searchInput.focus(), 50);
+}
+
+function renderXiPickerList(query){
+  if (!XI_PICKER_CONTEXT) return;
+  const { formation, currentOccupant } = XI_PICKER_CONTEXT;
+  const roster = computeEffectiveRoster(formation);
+  const { unavailableNames, onPitchNames, subsList } = roster;
+  const subSlotByName = {};
+  subsList.forEach(s => { if (!s.vacant) subSlotByName[s.player] = s.slot; });
+
+  const list = document.getElementById('xiPickerList');
+  const q = (query||'').toLowerCase();
+  const candidates = DATA.players
+    .filter(p => !unavailableNames.has(p.name))
+    .filter(p => p.name.toLowerCase().includes(q))
+    .map(p => ({ name:p.name, position:p.position, grade: gradeForPlayer(p.name) }))
+    .sort((a,b) => (b.grade||0)-(a.grade||0));
+
+  list.innerHTML = candidates.map(p=>{
+    const isCurrent = p.name === currentOccupant;
+    let tag = '';
+    if (isCurrent){
+      tag = '<span class="xi-picker-tag">Current</span>';
+    } else if (onPitchNames.has(p.name)){
+      tag = '<span class="xi-picker-tag">On pitch</span>';
+    } else if (subSlotByName[p.name] != null){
+      tag = `<span class="xi-picker-tag">Sub ${subSlotByName[p.name]}</span>`;
+    }
+    return `
+    <div class="xi-picker-row${isCurrent?' current':''}" data-player="${escapeHtml(p.name)}">
+      <div class="xi-picker-name-wrap">
+        <span class="xi-picker-name">${escapeHtml(p.name)}</span>
+        <span class="xi-picker-meta">${escapeHtml((p.position||'').trim())}</span>
+        ${tag}
+      </div>
+      <span class="xi-picker-grade">${p.grade!=null ? fmt1(p.grade) : '\u2014'}</span>
+    </div>`;
+  }).join('') || '<div class="empty-state">No players match.</div>';
+
+  list.querySelectorAll('.xi-picker-row').forEach(row=>{
+    row.addEventListener('click', ()=> assignXiPlayer(row.dataset.player));
+  });
+}
+
+function closeXiPicker(){
+  document.getElementById('xiPickerOverlay').classList.remove('open');
+  XI_PICKER_CONTEXT = null;
+}
+
+// Finds where a player currently, effectively sits - a starting XI slot or
+// a sub slot - accounting for overrides in either namespace, so assigning
+// them somewhere new can automatically vacate wherever they already are
+// instead of ever showing the same player twice at once.
+function findPlayerCurrentAssignment(formation, playerName){
+  const formationsData = DATA.teamSelection.formations || {};
+  const startingXI = (formationsData[formation] && formationsData[formation].startingXI) || DATA.teamSelection.startingXI || [];
+  const xiOverrides = MANUAL_XI[formation] || {};
+  const allXiSlots = new Set([1, ...startingXI.map(s=>s.slot), ...Object.keys(xiOverrides).map(Number)]);
+  for (const slot of allXiSlots){
+    const hasOv = Object.prototype.hasOwnProperty.call(xiOverrides, slot);
+    const effectivePlayer = hasOv ? xiOverrides[slot] : ((startingXI.find(s=>s.slot===slot)||{}).player);
+    if (effectivePlayer === playerName) return { type:'xi', slot };
+  }
+  const subEntry = computeEffectiveRoster(formation).subsList.find(s => !s.vacant && s.player === playerName);
+  if (subEntry) return { type:'sub', slot: subEntry.slot };
+  return null;
+}
+
+function clearAssignment(formation, assignment){
+  if (!assignment) return;
+  if (assignment.type === 'xi'){
+    if (!MANUAL_XI[formation]) MANUAL_XI[formation] = {};
+    MANUAL_XI[formation][assignment.slot] = null;
+  } else {
+    if (!MANUAL_SUBS[formation]) MANUAL_SUBS[formation] = {};
+    MANUAL_SUBS[formation][assignment.slot] = null;
+  }
+}
+
+function assignXiPlayer(name){
+  if (!XI_PICKER_CONTEXT) return;
+  const { type, formation, slot } = XI_PICKER_CONTEXT;
+  const prev = findPlayerCurrentAssignment(formation, name);
+  if (prev && !(prev.type === type && prev.slot === slot)){
+    clearAssignment(formation, prev); // vacate wherever they currently are, xi or sub
+  }
+  if (type === 'xi'){
+    if (!MANUAL_XI[formation]) MANUAL_XI[formation] = {};
+    MANUAL_XI[formation][slot] = name;
+  } else {
+    if (!MANUAL_SUBS[formation]) MANUAL_SUBS[formation] = {};
+    MANUAL_SUBS[formation][slot] = name;
+  }
+  saveManualState();
+  closeXiPicker();
+  renderTeamSelection();
+}
+
+function clearXiSlot(){
+  if (!XI_PICKER_CONTEXT) return;
+  const { type, formation, slot } = XI_PICKER_CONTEXT;
+  if (type === 'xi'){
+    if (!MANUAL_XI[formation]) MANUAL_XI[formation] = {};
+    MANUAL_XI[formation][slot] = null;
+  } else {
+    if (!MANUAL_SUBS[formation]) MANUAL_SUBS[formation] = {};
+    MANUAL_SUBS[formation][slot] = null;
+  }
+  saveManualState();
+  closeXiPicker();
+  renderTeamSelection();
 }
 
 /* ============================= PLAYER DETAIL ============================= */
@@ -1565,13 +2081,32 @@ function venueLabel(v){
   return v;
 }
 
+function statusClass(status){
+  if (!status) return '';
+  const s = status.toLowerCase();
+  if (s === 'started') return 'started';
+  if (s.includes('used')) return 'sub-used';
+  if (s.includes('unused')) return 'sub-unused';
+  return '';
+}
+
+function playerRowHtml(p){
+  const posText = p.pos2 ? `${escapeHtml(p.pos)} <span class="mp-pos2">/ ${escapeHtml(p.pos2)}</span>` : escapeHtml(p.pos||'');
+  return `
+    <tr>
+      <td class="mp-name">${escapeHtml(p.name)}</td>
+      <td class="mp-pos">${posText}</td>
+      <td class="mp-stat">${p.goals||0}</td>
+      <td class="mp-stat">${p.assists||0}</td>
+      <td class="mp-rating">${p.rating!=null ? fmt1(p.rating) : '\u2014'}</td>
+    </tr>`;
+}
+
 function renderFixtures(){
   const el = document.getElementById('fixturesSection');
   const fixtures = DATA.fixtures || [];
   const reports = DATA.matchReports || [];
   const matchSlots = (DATA.players[0] && DATA.players[0].matches) ? DATA.players[0].matches.length : 0;
-  const fixturesByGw = {};
-  fixtures.forEach(f => { fixturesByGw[f.gw] = f; });
 
   let fixturesHtml;
   if (fixtures.length > 0){
@@ -1597,27 +2132,59 @@ function renderFixtures(){
       </div>`;
   }
 
+  // Each match report is now fully self-contained (fixture detail + full
+  // per-player XI/subs breakdown), so there's no need to cross-reference
+  // the separate fixtures[] array the way the old, thinner report shape required.
   let reportsHtml;
   if (reports.length > 0){
-    reportsHtml = `<div class="fixture-list">` + reports.map(r => {
-      const fx = fixturesByGw[r.gw] || {};
-      const played = !!(fx.result && fx.result.toString().trim());
+    reportsHtml = reports.map(r => {
+      const played = !!(r.result && r.result.toString().trim());
+      const xi = r.xi || [];
+      const subs = r.subs || [];
+      const notes = [
+        r.matchNotes ? `<div class="match-notes-block"><div class="lbl">Match notes</div><p>${escapeHtml(r.matchNotes)}</p></div>` : '',
+        r.keyNotes ? `<div class="match-notes-block"><div class="lbl">Key notes</div><p>${escapeHtml(r.keyNotes)}</p></div>` : ''
+      ].join('');
+
       return `
-      <div class="fixture-row">
-        <span class="fixture-gw">GW ${escapeHtml(r.gw!=null?r.gw:'—')}</span>
-        <div class="fixture-main">
-          <div class="fixture-opponent">${escapeHtml(fx.opponent||'Opponent TBC')}</div>
-          <div class="fixture-meta">${r.motm ? 'MOTM: '+escapeHtml(r.motm) : 'No MOTM recorded'}</div>
+      <div class="match-report-card">
+        <div class="match-report-header">
+          <div>
+            <span class="fixture-gw">GW ${escapeHtml(r.gw!=null?r.gw:'—')}</span>
+            <span class="match-report-opponent">${escapeHtml(r.opponent||'Opponent TBC')}</span>
+            <span class="mp-pos2">(${escapeHtml(venueLabel(r.venue))})</span>
+          </div>
+          <div class="match-report-score-wrap">
+            <span class="fixture-score">${played && r.gf!=null && r.ga!=null ? r.gf+'\u2013'+r.ga : '\u2014'}</span>
+            <span class="fixture-result ${resultClass(r.result)}">${escapeHtml(played ? r.result : 'Not played')}</span>
+          </div>
         </div>
-        <span class="fixture-score">${played && fx.gf!=null && fx.ga!=null ? fx.gf+'\u2013'+fx.ga : '\u2014'}</span>
-        <span class="fixture-result ${resultClass(fx.result)}">${escapeHtml(played ? fx.result : 'Not played')}</span>
+        <div class="fixture-meta" style="margin-bottom:12px;">${escapeHtml(r.date||'Date TBC')} &middot; ${r.motm ? 'MOTM: '+escapeHtml(r.motm) : 'No MOTM recorded'}</div>
+
+        ${xi.length ? `
+        <div class="match-section-title">Starting XI</div>
+        <table class="match-player-table">
+          <thead><tr><th>Player</th><th>Position</th><th>G</th><th>A</th><th>Rating</th></tr></thead>
+          <tbody>${xi.map(playerRowHtml).join('')}</tbody>
+        </table>` : ''}
+
+        ${subs.length ? `
+        <div class="match-section-title">Substitutes</div>
+        <table class="match-player-table">
+          <thead><tr><th>Player</th><th>Position</th><th>G</th><th>A</th><th>Rating</th></tr></thead>
+          <tbody>${subs.map(s => playerRowHtml(s).replace('<tr>', `<tr class="${statusClass(s.status)}">`)).join('')}</tbody>
+        </table>` : ''}
+
+        ${notes}
       </div>`;
-    }).join('') + `</div>`;
+    }).join('');
   } else {
     reportsHtml = `
-      <div class="empty-state">
-        No match reports yet.<br>
-        Player of the Match, ratings and match notes will show here once a game week's Match Log is filled in.
+      <div class="panel">
+        <div class="empty-state">
+          No match reports yet.<br>
+          Player of the Match, ratings and match notes will show here once a game week's Match Log is filled in.
+        </div>
       </div>`;
   }
 
@@ -1629,10 +2196,8 @@ function renderFixtures(){
     </div>
 
     <div class="section-title"><span class="num">02</span> Match reports</div>
-    <div class="panel">
-      <div class="panel-head"><h3>Player of the Match &amp; notes</h3><span class="hint">${reports.length} report${reports.length===1?'':'s'} logged</span></div>
-      ${reportsHtml}
-    </div>
+    <span class="hint" style="display:block; margin-bottom:10px;">${reports.length} report${reports.length===1?'':'s'} logged</span>
+    ${reportsHtml}
   `;
 }
 

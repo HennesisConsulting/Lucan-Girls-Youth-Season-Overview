@@ -117,13 +117,22 @@ def redact_sensitive_fields(data: dict) -> dict:
     """
     GENERIC = "Unavailable"
 
+    def redact_not_selected_list(ns_list):
+        for ns in ns_list or []:
+            status = ns.get("status", "")
+            if isinstance(status, str) and status.startswith("Unavailable"):
+                ns["status"] = GENERIC
+
     for entry in data.get("teamSelection", {}).get("unavailable", []):
         entry["reason"] = GENERIC
 
-    for ns in data.get("teamSelection", {}).get("notSelected", []):
-        status = ns.get("status", "")
-        if isinstance(status, str) and status.startswith("Unavailable"):
-            ns["status"] = GENERIC
+    redact_not_selected_list(data.get("teamSelection", {}).get("notSelected"))
+
+    # Each formation (e.g. "3-5-2", "4-3-3") carries its own independent
+    # notSelected list with the same status field - easy to miss since this
+    # structure didn't exist when the redaction was first written.
+    for formation_entry in (data.get("teamSelection", {}).get("formations") or {}).values():
+        redact_not_selected_list(formation_entry.get("notSelected"))
 
     for p in data.get("players", []):
         if p.get("availability") not in (None, "Yes") and p.get("unavailableReason"):
